@@ -12,6 +12,8 @@
 // @grant        none
 // ==/UserScript==
 
+console.log("hi");
+
 // Creates button to trigger function
 var wrapButton = document.createElement("div");
 var parentWrap = document.querySelectorAll(".container-fluid")[0]
