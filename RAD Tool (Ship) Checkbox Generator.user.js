@@ -6,6 +6,8 @@
 // @author       You
 // @match        https://rad-operations.supplychain.opstech.a2z.com/ship
 // @include      https://rad-operations.supplychain.opstech.a2z.com/pick
+// @downloadURL  https://github.com/Tyler-Metz/tampermonkey/blob/d2e08f5c46916040ed774373edd3a07502f17102/RAD%20Tool%20(Ship)%20Checkbox%20Generator.user.js
+// @updateURL    https://github.com/Tyler-Metz/tampermonkey/blob/d2e08f5c46916040ed774373edd3a07502f17102/RAD%20Tool%20(Ship)%20Checkbox%20Generator.user.js
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
