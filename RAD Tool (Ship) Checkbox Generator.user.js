@@ -135,7 +135,6 @@ function confirmSaveData(key, val, ele){
         if (boolean){
             localStorage.setItem(key, val);
         } else {
-            alert("Not saving data");
             ele.checked = !ele.checked
             console.log("Almost kloop time: ", val);
             console.log(checkedBoxes);
