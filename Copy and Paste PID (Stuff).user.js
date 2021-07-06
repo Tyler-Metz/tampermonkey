@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Copy and Paste PID (Stuff)
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Copies PIDs from a TOA and converts it to excel format for pasting.
 // @author       Tyler Metz
 // @match        https://stuff.amazon.com
-// @downloadURL  https://github.com/Tyler-Metz/tampermonkey/blob/cc584ef155c0557c8b2cce5b77774296635db414/Copy%20and%20Paste%20PID%20(Stuff).user.js
-// @updateURL    https://github.com/Tyler-Metz/tampermonkey/blob/cc584ef155c0557c8b2cce5b77774296635db414/Copy%20and%20Paste%20PID%20(Stuff).user.js
+// @downloadURL  https://github.com/Tyler-Metz/tampermonkey/raw/main/Copy%20and%20Paste%20PID%20(Stuff).user.js
+// @updateURL    https://github.com/Tyler-Metz/tampermonkey/raw/main/Copy%20and%20Paste%20PID%20(Stuff).user.js
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
