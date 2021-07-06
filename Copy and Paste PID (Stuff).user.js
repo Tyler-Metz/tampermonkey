@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy and Paste PID (Stuff)
 // @namespace    http://tampermonkey.net/
-// @version      1.11
+// @version      1.12
 // @description  Copies PIDs from a TOA and converts it to excel format for pasting.
 // @author       Tyler Metz
 // @match        https://stuff.amazon.com
