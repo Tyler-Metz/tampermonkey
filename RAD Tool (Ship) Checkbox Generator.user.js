@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         RAD Tool (Ship) Checkbox Generator
 // @namespace    http://tampermonkey.net/
-// @version      1.12
+// @version      1.13
 // @description  Generates checkboxes on RAD Tool Ship
 // @author       Tyler Metz
 // @match        https://rad-operations.supplychain.opstech.a2z.com/ship
@@ -10,6 +10,7 @@
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
+const checkedBoxes = {};
 
 // Creates button to trigger function
 var wrapButton = document.createElement("div");
@@ -55,40 +56,95 @@ function generateCheckBoxes(){
                 cln.setAttribute("class", "checkbox");
                 cln.style.width = "10px";
                 cln.style.length = "20px";
+                var checkboxes = document.querySelectorAll(".checkbox")
+                cln.addEventListener("mousedown", function(){
+                    saveData(this);
+                });
             }
         }
     }
 }
 
 // Makes Save & Load Button
-var saveButton = document.createElement("button");
+// var saveButton = document.createElement("button");
 var loadButton = document.createElement("button");
-saveButton.setAttribute("class", "customButtons");
+// saveButton.setAttribute("class", "customButtons");
 loadButton.setAttribute("class", "customButtons");
-saveButton.textContent = "Save Checkboxes";
+// saveButton.textContent = "Save Checkboxes";
 loadButton.textContent = "Load Checkboxes";
-wrapButton.appendChild(saveButton);
+// wrapButton.appendChild(saveButton);
 wrapButton.appendChild(loadButton);
 wrapButton.style.display = "flex";
 wrapButton.style.justifyContent = "space-evenly";
 
-// Saves checkbox data to localStorage
-function saveData(){
-    const checkedBoxes = {};
+// Saves checkbox data to localStorage automatically
+function saveData(ele){
     const defaultInput = document.querySelectorAll(".ant-input");
     const defaultInputStr = defaultInput[0].value
-    var allCheckBoxes = document.querySelectorAll(".checkbox");
+    var getStore = localStorage.getItem(defaultInputStr)
+    const allCheckBoxes = document.querySelectorAll(".checkbox");
+
     for (var i=0;i < allCheckBoxes.length;i++){
-        switch(allCheckBoxes[i].checked){
-            case true:
-                checkedBoxes[i] = allCheckBoxes[i].checked;
-                continue;
-            case false:
-                continue;
+        if(!allCheckBoxes[i].checked && ele == allCheckBoxes[i]){
+            checkedBoxes[i] = true;
+        }
+        else if (allCheckBoxes[i].checked && ele == allCheckBoxes[i]){
+            delete checkedBoxes[i];
+            continue;
+        }
+        else if (allCheckBoxes[i].checked){
+            checkedBoxes[i] = allCheckBoxes[i].checked;
         }
     }
+
     const checkedBoxesStr = JSON.stringify(checkedBoxes);
-    localStorage.setItem(defaultInputStr, checkedBoxesStr);
+    confirmSaveData(defaultInputStr, checkedBoxesStr, ele);
+}
+
+// Triggers an confirm if you attempt to automatically save over checkbox data
+function confirmSaveData(key, val, ele){
+    var numFlag = 0;
+    var oldKey = localStorage.getItem(key);
+    console.log("oldKey data: ", oldKey);
+    console.log("newKey data: ", key, + "" + val);
+
+    var parsedOldKey = JSON.parse(oldKey);
+    var parsedNewKey = JSON.parse(val);
+
+    for (var i in parsedOldKey){
+        var jflag = false;
+        var ind = -1;
+        for (var j in parsedNewKey){
+            ind += 1;
+            if (i == j){
+                console.log("Found a match");
+                jflag = true;
+            }
+
+            console.log(i);
+            console.log(Object.keys(parsedNewKey).length - 1);
+            if(!jflag && ind == Object.keys(parsedNewKey).length - 1){
+                console.log("No match found");
+                numFlag += 1
+            }
+        }
+    }
+
+    if (1 < numFlag){
+        var boolean = confirm("Are you sure you want to overwrite saved checkbox data for this ticket/toa?");
+        if (boolean){
+            localStorage.setItem(key, val);
+        } else {
+            alert("Not saving data");
+            ele.checked = !ele.checked
+            console.log("Almost kloop time: ", val);
+            console.log(checkedBoxes);
+            for (var k in checkedBoxes){
+                    delete checkedBoxes[k];
+            }
+        }
+    }
+    else localStorage.setItem(key, val);
 }
 
 // Loads checkbox data from localStorage
@@ -105,9 +161,9 @@ function loadData(){
 
 }
 
-saveButton.addEventListener("click", function(){
+/*saveButton.addEventListener("click", function(){
     saveData();
-});
+});*/
 
 loadButton.addEventListener("click", function(){
     loadData();
