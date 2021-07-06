@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         RAD Tool (Ship) Checkbox Generator
 // @namespace    http://tampermonkey.net/
-// @version      1.11
+// @version      1.12
 // @description  Generates checkboxes on RAD Tool Ship
 // @author       Tyler Metz
 // @match        https://rad-operations.supplychain.opstech.a2z.com/ship
