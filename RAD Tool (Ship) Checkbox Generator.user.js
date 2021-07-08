@@ -5,6 +5,7 @@
 // @description  Generates checkboxes on RAD Tool Ship
 // @author       Tyler Metz
 // @match        https://rad-operations.supplychain.opstech.a2z.com/ship
+// @require https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
 // @downloadURL  https://github.com/Tyler-Metz/tampermonkey/raw/main/RAD%20Tool%20(Ship)%20Checkbox%20Generator.user.js
 // @updateURL    https://github.com/Tyler-Metz/tampermonkey/raw/main/RAD%20Tool%20(Ship)%20Checkbox%20Generator.user.js
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -66,13 +67,9 @@ function generateCheckBoxes(){
 }
 
 // Makes Save & Load Button
-// var saveButton = document.createElement("button");
 var loadButton = document.createElement("button");
-// saveButton.setAttribute("class", "customButtons");
 loadButton.setAttribute("class", "customButtons");
-// saveButton.textContent = "Save Checkboxes";
 loadButton.textContent = "Load Checkboxes";
-// wrapButton.appendChild(saveButton);
 wrapButton.appendChild(loadButton);
 wrapButton.style.display = "flex";
 wrapButton.style.justifyContent = "space-evenly";
@@ -83,17 +80,18 @@ function saveData(ele){
     const defaultInputStr = defaultInput[0].value
     var getStore = localStorage.getItem(defaultInputStr)
     const allCheckBoxes = document.querySelectorAll(".checkbox");
-
+    var test = $(".checkbox").closest("td").next().text();
+    console.log("jquery test results: ", test);
     for (var i=0;i < allCheckBoxes.length;i++){
         if(!allCheckBoxes[i].checked && ele == allCheckBoxes[i]){
-            checkedBoxes[i] = true;
+            checkedBoxes[i] = $(".checkbox").eq(i).closest("td").next().text();
         }
         else if (allCheckBoxes[i].checked && ele == allCheckBoxes[i]){
             delete checkedBoxes[i];
             continue;
         }
         else if (allCheckBoxes[i].checked){
-            checkedBoxes[i] = allCheckBoxes[i].checked;
+            checkedBoxes[i] = $(".checkbox").eq(i).closest("td").next().text();
         }
     }
 
@@ -153,9 +151,30 @@ function loadData(){
     var checkBoxData = localStorage.getItem(defaultInputStr);
     checkBoxData = JSON.parse(checkBoxData);
     var allCheckBoxes = document.querySelectorAll(".checkbox");
-    console.log(checkBoxData);
+    var idmsData = Object.values(checkBoxData)
+
+    var siblingIndex = findIdmsIndex();
+
+    function findIdmsIndex(){
+        var idms = "";
+        var siblings = $(allCheckBoxes).eq(i).closest("td").siblings();
+        $(siblings).each(function(ind, ele){
+            if (+ele.textContent.length == 6){
+                console.log("idms sibling found! ", ele)
+                idms = ele.textContent;
+                return false;
+            }
+        });
+        return idms;
+    }
+
     for (var i in allCheckBoxes){
-        allCheckBoxes[i].checked = checkBoxData[i]
+        var idmsText = $(allCheckBoxes).eq(i).closest("td").siblings().eq(siblingIndex).text()
+
+        if (idmsData.includes(idmsText)){
+            console.log("IDMS Found, making checkbox.checked true");
+            allCheckBoxes[i].checked = true;
+        }
     }
 
 }
