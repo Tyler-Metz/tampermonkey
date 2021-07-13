@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         RAD Tool (Ship) Checkbox Generator
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      2.1
 // @description  Generates checkboxes on RAD Tool Ship
 // @author       Tyler Metz
 // @match        https://rad-operations.supplychain.opstech.a2z.com/ship
@@ -114,15 +114,18 @@ function confirmSaveData(key, val, ele){
         var ind = -1;
         for (var j in parsedNewKey){
             ind += 1;
-            if (i == j){
+            // console.log("Checking if ", parsedOldKey[i]," matches ", parsedNewKey[j])
+            if (parsedOldKey[i] == parsedNewKey[j]){
                 console.log("Found a match");
                 jflag = true;
+                delete parsedNewKey[j];
+                break;
             }
 
-            console.log(i);
-            console.log(Object.keys(parsedNewKey).length - 1);
+            // console.log("Fetching ", i," from local storage.");
+            // console.log("Length of current newkey: ", Object.keys(parsedNewKey).length - 1);
             if(!jflag && ind == Object.keys(parsedNewKey).length - 1){
-                console.log("No match found");
+                console.log(`No match found on oldKey: ${i} and newKey: ${j}`);
                 numFlag += 1
             }
         }
