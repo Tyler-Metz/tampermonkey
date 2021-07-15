@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Copy and Paste PID (Stuff)
 // @namespace    http://tampermonkey.net/
-// @version      1.12
+// @version      1.20
 // @description  Copies PIDs from a TOA and converts it to excel format for pasting.
 // @author       Tyler Metz
 // @match        https://stuff.amazon.com
+// @require https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
 // @downloadURL  https://github.com/Tyler-Metz/tampermonkey/raw/main/Copy%20and%20Paste%20PID%20(Stuff).user.js
 // @updateURL    https://github.com/Tyler-Metz/tampermonkey/raw/main/Copy%20and%20Paste%20PID%20(Stuff).user.js
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -58,17 +59,19 @@ function copyAllPids(){
     // clipboardDOM.setAttribute("value", newAllPids);
     clipboardDOM.select();
     document.execCommand("copy");
+    $(clipboardDOM).remove();
 }
 
 // Makes a button for firing copyToClipboard.
 setTimeout(function(){
     var inputButton = document.createElement("button");
+    inputButton.setAttribute('id', 'getPidButton');
     inputButton.innerHTML = "Copy PIDS";
     var grabH2 = document.querySelectorAll("h2");
     grabH2[0].appendChild(inputButton);
 
     // Makes event listener for the button object.
-    grabH2[0].addEventListener("click", copyAllPids);
+    inputButton.addEventListener("click", copyAllPids);
 }, 8000);
 
 
